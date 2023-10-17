@@ -1,0 +1,32 @@
+set.seed(123)
+
+data <- data.frame(
+  
+  x = c(rnorm(50, mean = 0, sd = 1), rnorm(50, mean = 5, sd = 1)),
+  
+  y = c(rnorm(50, mean = 0, sd = 1), rnorm(50, mean = 5, sd = 1))
+  
+)
+
+
+
+kmeans_res <- kmeans(data, centers = 2)
+
+
+
+plot(data, col = kmeans_res$cluster, main = "KMeans Clustering")
+
+points(kmeans_res$centers, col = 1:2)
+
+
+
+dist_matrix <- dist(data, method = "euclidean")
+
+hclust_res <- hclust(dist_matrix, method = "complete")
+
+
+
+plot(hclust_res, main = "Hierarchical Clustering Dendrogram")
+
+head(data)
+

@@ -1,0 +1,38 @@
+set.seed(123)
+
+x <- 1:100
+
+y <- 3 * x + rnorm(100, mean = 0, sd = 40)
+
+
+data_linear <- data.frame(x, y)
+
+
+linear_model <- lm(y ~ x, data = data_linear)
+
+
+print(summary(linear_model))
+
+
+plot(data_linear$x, data_linear$y, main = "Linear Regression")
+
+abline(linear_model)
+
+z <- 1:100
+
+prob <- exp(0.1 * z) / (1 + exp(0.1 * z))
+
+y_bin <- rbinom(100, 1, prob)
+
+data_logistic <- data.frame(z, y_bin)
+
+
+logistic_model <- glm(y_bin ~ z, data = data_logistic, family = "binomial")
+
+print(summary(logistic_model))
+
+
+plot(data_logistic$z, data_logistic$y_bin, main = "Logistic Regression")
+
+curve(predict(logistic_model, newdata = data.frame(z = x), type = "response"), add = TRUE)
+

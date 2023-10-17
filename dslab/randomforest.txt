@@ -1,0 +1,44 @@
+install.packages("randomForest")
+
+library(randomForest)
+
+set.seed(456)
+
+n_samples <- 1000
+
+threshold <- 1.5
+
+
+var1 <- runif(n_samples)
+
+var2 <- runif(n_samples)
+
+var3 <- runif(n_samples)
+
+
+
+target <- ifelse((var1 + var2 + var3) > threshold, 1, 0)
+
+dataset <- data.frame(var1, var2, var3, target)
+
+
+
+sample_index <- sample(seq_len(n_samples), size = 0.7 * n_samples)
+
+train_data <- dataset[sample_index, ]
+
+test_data <- dataset[-sample_index, ]
+
+rf_model <- randomForest(target ~ ., data = train_data, ntree = 100)
+
+print(rf_model)
+
+predicted_target <- predict(rf_model, test_data)
+
+
+
+plot(rf_model)
+
+importance(rf_model)
+
+varImpPlot(rf_model)

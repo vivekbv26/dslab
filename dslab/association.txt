@@ -1,0 +1,41 @@
+install.packages("arules")
+
+install.packages("arulesViz")
+
+library(arules)
+
+library(arulesViz)
+
+set.seed(123) # For reproducibility
+
+items <- c("Milk", "Bread", "Eggs", "Beer", "Diapers", "Cola")
+
+num_transactions <- 100
+
+
+generate_transaction <- function() {
+  
+  sample(items, size = sample(1:length(items), 1), replace = FALSE)
+  
+}
+
+
+transactions <- lapply(1:num_transactions, function(x) generate_transaction())
+
+transaction_data <- as(transactions, "transactions")
+
+
+
+rules <- apriori(transaction_data, parameter = list(supp = 0.1, conf = 0.8))
+
+
+
+inspect(sort(rules, by = "lift")[1:5])
+
+
+
+plot(rules, method = "scatter", interactive = FALSE, main = "Support vs. Confidence")
+
+plot(rules, method = "matrix", measure = c("support", "lift"), interactive = FALSE, main = "Matrix Visualization")
+
+plot(rules, method = "two-key plot", measure = c("support", "lift"), shading = "confidence", main = "Rule Distribution (Two-Key Plot)")
